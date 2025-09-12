@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание занятий</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="date">{{ current_date }}</div>
+            <div class="day">{{ current_day }}</div>
+        </header>
+
+        <div class="schedule-section">
+            <h2 class="section-title">Пары сегодня</h2>
+            {% if today_lessons %}
+            {% for lesson in today_lessons %}
+            <div class="lesson">
+                {% if lesson.time %}
+                <div class="time">{{ lesson.time }}</div>
+                {% endif %}
+                {% if lesson.subject %}
+                <div class="subject">{{ lesson.subject }}</div>
+                {% endif %}
+                {% if lesson.teacher %}
+                <div class="teacher">{{ lesson.teacher }}</div>
+                {% endif %}
+                <div class="homework">{{ lesson.homework }}</div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Нет пар — возможно, выходной.</p>
+            {% endif %}
+        </div>
+
+        <div class="schedule-section">
+            <h2 class="section-title">Пары завтра</h2>
+            {% if tomorrow_lessons %}
+            {% for lesson in tomorrow_lessons %}
+            <div class="lesson">
+                {% if lesson.time %}
+                <div class="time">{{ lesson.time }}</div>
+                {% endif %}
+                {% if lesson.subject %}
+                <div class="subject">{{ lesson.subject }}</div>
+                {% endif %}
+                {% if lesson.teacher %}
+                <div class="teacher">{{ lesson.teacher }}</div>
+                {% endif %}
+                <div class="homework">{{ lesson.homework }}</div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Нет пар — возможно, выходной.</p>
+            {% endif %}
+        </div>
+
+        <div class="schedule-section">
+            <h2 class="section-title">Пары на неделю</h2>
+            {% if sorted_days %}
+            {% for day in sorted_days %}
+            <div class="day-block">
+                <h3>{{ day.day_of_week }}, {{ day.date }}</h3>
+                {% if day.lessons %}
+                {% for lesson in day.lessons %}
+                <div class="lesson">
+                    {% if lesson.time %}
+                    <div class="time">{{ lesson.time }}</div>
+                    {% endif %}
+                    {% if lesson.subject %}
+                    <div class="subject">{{ lesson.subject }}</div>
+                    {% endif %}
+                    {% if lesson.teacher %}
+                    <div class="teacher">{{ lesson.teacher }}</div>
+                    {% endif %}
+                    <div class="homework">{{ lesson.homework }}</div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>Нет пар в этот день.</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Информация о расписании на неделю отсутствует.</p>
+            {% endif %}
+        </div>
+
+        {% if error %}
+        <div class="error">
+            <p>⚠️ {{ error }}</p>
+        </div>
+        {% endif %}
+
+        <footer>
+            <p>Расписание занятий © {{ now().year }}</p>
+            <p>Создано командой N-code Team</p>
+        </footer>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
